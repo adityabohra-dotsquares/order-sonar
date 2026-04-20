@@ -3,6 +3,7 @@ import os
 from typing import List, Dict, Any, Optional
 from loguru import logger
 from datetime import datetime
+import urllib.parse
 
 class AramexError(Exception):
     """Base exception for Aramex Service"""
@@ -66,7 +67,15 @@ class AramexService:
         Endpoint: {base_address}/api/track/{tracking_number}
         """
         token = await self.get_access_token()
-        url = f"{self.base_address}/api/track/{tracking_number}"
+        # Validate tracking_number to prevent path traversal
+        if not tracking_number or not isinstance(tracking_number, str):
+            raise ValueError("Invalid tracking number")
+        
+        # Simple alphanumeric check - adjust if Aramex supports more characters
+        # But quoting is the primary defense.
+        
+        safe_tracking_number = urllib.parse.quote(tracking_number, safe='')
+        url = f"{self.base_address}/api/track/{safe_tracking_number}"
         
         headers = {
             "Authorization": f"Bearer {token}",
