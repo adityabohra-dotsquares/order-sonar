@@ -71,9 +71,9 @@ class CalculateRequest(BaseModel):
 
 class CalculateResponse(BaseModel):
     shipping_cost: float
-    carrier: Optional[str]
-    delivery_days: Optional[int]
-    rule_id: Optional[str]
+    carrier: Optional[str] = None
+    delivery_days: Optional[int] = None
+    rule_id: Optional[str] = None
     free_shipping_applied: bool
     cod_available: bool
 

@@ -387,7 +387,6 @@ def build_order_filters(params):
 
 async def get_orders(db, params, user_id, session_token):
     print(user_id, "IN Get Orders")
-    # stmt = select(Order)
     stmt = select(Order).options(
         selectinload(Order.order_details),
         selectinload(Order.items),
@@ -560,7 +559,7 @@ async def validate_pincode_from_file(
     return await asyncio.to_thread(_work)
 
 
-async def export_orders_csv(orders):
+def export_orders_csv(orders):
     file_path = os.path.join(EXPORT_PATH, "orders_export.csv")
 
     with open(file_path, "w", newline="", encoding="utf-8") as f:
@@ -898,7 +897,10 @@ async def update_order_address(
 
     changes = []
     old_values = {}
-    snapshot = (details.customer_snapshot or {}).copy()
+    if details.customer_snapshot:
+        snapshot = (details.customer_snapshot).copy()
+    else:
+        snapshot = {}
 
     # Mapping of address types and their respective fields in OrderDetails
     # Note: landwark is shared or only for shipping in some models, in OrderDetails it is just 'landmark'

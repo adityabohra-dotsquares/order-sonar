@@ -37,10 +37,10 @@ class ShipmentPartnerUpdate(BaseModel):
 
 class ShipmentPartnerResponse(ShipmentPartnerBase):
     id: str
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
-    added_by: Optional[str]
-    updated_by: Optional[str]
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    added_by: Optional[str] = None
+    updated_by: Optional[str] = None
 
     class Config:
         from_attributes = True
