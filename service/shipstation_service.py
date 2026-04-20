@@ -98,7 +98,7 @@ class ShipStationService:
 
     async def get_order(self, order_id: str) -> Dict[str, Any]:
         """Get order details"""
-        safe_order_id = urllib.parse.quote(str(order_id), safe='')
+        safe_order_id = urllib.parse.quote(str(order_id), safe="")
         url = f"{self.base_url}/orders/{safe_order_id}"
         headers = self._get_auth_header()
 
@@ -110,7 +110,7 @@ class ShipStationService:
     async def delete_order(self, order_id: int) -> Dict[str, Any]:
         """Delete an order in ShipStation"""
         try:
-            safe_order_id = urllib.parse.quote(str(order_id), safe='')
+            safe_order_id = urllib.parse.quote(str(order_id), safe="")
             url = f"{self.base_url}/orders/{safe_order_id}"
             headers = self._get_auth_header()
 
@@ -129,7 +129,7 @@ class ShipStationService:
             raise Exception(f"Failed to delete ShipStation order: {str(e)}")
 
 
-async def convert_to_shipstation_format(
+def convert_to_shipstation_format(
     order: Order, order_details: OrderDetails, order_data: dict
 ) -> dict:
     """Convert your internal order format to ShipStation format"""
@@ -229,7 +229,7 @@ class ShipStationServiceV2:
             raise Exception(f"Failed to fetch carriers from ShipStation V2: {str(e)}")
 
     async def get_services(self, carrier_id: str) -> List[Dict[str, Any]]:
-        safe_carrier_id = urllib.parse.quote(str(carrier_id), safe='')
+        safe_carrier_id = urllib.parse.quote(str(carrier_id), safe="")
         url = f"{self.base_url}/carriers/{safe_carrier_id}/services"
         headers = self._get_auth_header()
         try:
@@ -239,10 +239,9 @@ class ShipStationServiceV2:
                 data = response.json()
                 return data.get("services", []) if isinstance(data, dict) else data
         except Exception as e:
-            raise Exception(f"Failed to fetch services for carrier {carrier_id} from ShipStation V2: {str(e)}")
-
-
-
+            raise Exception(
+                f"Failed to fetch services for carrier {carrier_id} from ShipStation V2: {str(e)}"
+            )
 
 
 class ShipStationServiceV2:
@@ -287,6 +286,7 @@ class ShipStationServiceV2:
 
         except httpx.HTTPError as e:
             raise Exception(f"Error contacting ShipStation: {str(e)}")
+
 
 class ShipStationTrackingService:
     def __init__(self, api_key: str):

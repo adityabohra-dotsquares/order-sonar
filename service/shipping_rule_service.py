@@ -113,14 +113,10 @@ class ShippingRuleService(OrderBaseService):
             shipping_cost = 0.0
         elif price >= self.PRICE_THRESHOLD:
             shipping_cost = 0.0
-        elif price < self.PRICE_THRESHOLD:
-            # The original logic had multiple elifs that might overlap
-            # Simplified to match original flow
-            shipping_cost = self.BASE_SHIPPING_COST
         elif chargeable_weight and chargeable_weight > self.THRESHOLD_WEIGHT_VALUE:
             shipping_cost = chargeable_weight * self.WEIGHT_RATE_PER_KG
         else:
-            shipping_cost = 50.0
+            shipping_cost = self.BASE_SHIPPING_COST
 
         return {
             "shipping_cost": shipping_cost,
