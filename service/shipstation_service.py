@@ -4,7 +4,7 @@ import base64
 import urllib.parse
 from typing import Dict, Any, List
 from models.orders import Order, OrderDetails
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class ShipStationService:
@@ -33,7 +33,10 @@ class ShipStationService:
         headers = self._get_auth_header()
 
         try:
-            response = requests.post(url, json=rate_data, headers=headers, timeout=30)
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    url, json=rate_data, headers=headers, timeout=30.0
+                )
 
             if response.status_code == 400:
                 # Parse the error details
@@ -44,7 +47,7 @@ class ShipStationService:
             result = response.json()
             return result
 
-        except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             raise Exception(f"Error contacting ShipStation: {str(e)}")
 
     async def create_order(self, order_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -156,7 +159,7 @@ async def convert_to_shipstation_format(
         "orderDate": (
             order.created_at.isoformat()
             if order.created_at
-            else datetime.utcnow().isoformat()
+            else datetime.now(timezone.utc).isoformat()
         ),
         "orderStatus": "awaiting_shipment",
         "customerUsername": order_details.customer_email,
@@ -268,7 +271,10 @@ class ShipStationServiceV2:
         headers = self._get_auth_header()
 
         try:
-            response = requests.post(url, json=rate_data, headers=headers, timeout=30)
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    url, json=rate_data, headers=headers, timeout=30.0
+                )
 
             if response.status_code == 400:
                 # Parse the error details
@@ -279,7 +285,7 @@ class ShipStationServiceV2:
             result = response.json()
             return result
 
-        except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             raise Exception(f"Error contacting ShipStation: {str(e)}")
 
 class ShipStationTrackingService:
