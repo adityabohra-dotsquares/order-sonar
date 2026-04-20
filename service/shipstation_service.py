@@ -1,8 +1,9 @@
 # app/services/shipstation_service.py
-import requests
+import httpx
 import base64
 from typing import Dict, Any, List
 from models.orders import Order, OrderDetails
+from datetime import datetime
 
 
 class ShipStationService:
@@ -51,16 +52,17 @@ class ShipStationService:
             url = f"{self.base_url}/orders/createorder"
             headers = self._get_auth_header()
 
-            response = requests.post(
-                url, json=order_data, headers=headers, timeout=30
-            )
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    url, json=order_data, headers=headers, timeout=30.0
+                )
 
             if response.status_code == 400:
                 error_detail = response.json()
                 raise Exception(f"ShipStation validation error: {error_detail}")
             response.raise_for_status()
             return response.json()
-        except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             print(f"ShipStation API Error: {str(e)}")
             if hasattr(e, "response") and e.response is not None:
                 print(f"Error response: {e.response.text}")
@@ -71,7 +73,8 @@ class ShipStationService:
         url = f"{self.base_url}/carriers"
         headers = self._get_auth_header()
 
-        response = requests.get(url, headers=headers, timeout=30)
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=headers, timeout=30.0)
         response.raise_for_status()
         return response.json()
 
@@ -84,7 +87,8 @@ class ShipStationService:
 
         data = {"orderId": order_id, **shipment_data}
 
-        response = requests.post(url, json=data, headers=headers, timeout=30)
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, json=data, headers=headers, timeout=30.0)
         response.raise_for_status()
         return response.json()
 
@@ -93,7 +97,8 @@ class ShipStationService:
         url = f"{self.base_url}/orders/{order_id}"
         headers = self._get_auth_header()
 
-        response = requests.get(url, headers=headers, timeout=30)
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=headers, timeout=30.0)
         response.raise_for_status()
         return response.json()
 
@@ -103,14 +108,15 @@ class ShipStationService:
             url = f"{self.base_url}/orders/{order_id}"
             headers = self._get_auth_header()
 
-            response = requests.delete(url, headers=headers, timeout=30)
+            async with httpx.AsyncClient() as client:
+                response = await client.delete(url, headers=headers, timeout=30.0)
 
             if response.status_code == 400:
                 error_detail = response.json()
                 raise Exception(f"ShipStation validation error: {error_detail}")
             response.raise_for_status()
             return response.json()
-        except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             print(f"ShipStation API Error: {str(e)}")
             if hasattr(e, "response") and e.response is not None:
                 print(f"Error response: {e.response.text}")
@@ -208,7 +214,6 @@ class ShipStationServiceV2:
         url = f"{self.base_url}/carriers"
         headers = self._get_auth_header()
         try:
-            import httpx
             async with httpx.AsyncClient() as client:
                 response = await client.get(url, headers=headers)
                 response.raise_for_status()
@@ -221,7 +226,6 @@ class ShipStationServiceV2:
         url = f"{self.base_url}/carriers/{carrier_id}/services"
         headers = self._get_auth_header()
         try:
-            import httpx
             async with httpx.AsyncClient() as client:
                 response = await client.get(url, headers=headers)
                 response.raise_for_status()
@@ -286,8 +290,6 @@ class ShipStationTrackingService:
         }
 
     async def track_shipment(self, tracking_number: str, carrier_code: str):
-        import httpx
-
         url = f"{self.base_url}/tracking"
         params = {
             "tracking_number": tracking_number,
