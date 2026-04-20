@@ -1,6 +1,7 @@
 # app/services/shipstation_service.py
 import httpx
 import base64
+import urllib.parse
 from typing import Dict, Any, List
 from models.orders import Order, OrderDetails
 from datetime import datetime
@@ -94,7 +95,8 @@ class ShipStationService:
 
     async def get_order(self, order_id: str) -> Dict[str, Any]:
         """Get order details"""
-        url = f"{self.base_url}/orders/{order_id}"
+        safe_order_id = urllib.parse.quote(str(order_id), safe='')
+        url = f"{self.base_url}/orders/{safe_order_id}"
         headers = self._get_auth_header()
 
         async with httpx.AsyncClient() as client:
@@ -105,7 +107,8 @@ class ShipStationService:
     async def delete_order(self, order_id: int) -> Dict[str, Any]:
         """Delete an order in ShipStation"""
         try:
-            url = f"{self.base_url}/orders/{order_id}"
+            safe_order_id = urllib.parse.quote(str(order_id), safe='')
+            url = f"{self.base_url}/orders/{safe_order_id}"
             headers = self._get_auth_header()
 
             async with httpx.AsyncClient() as client:
@@ -223,7 +226,8 @@ class ShipStationServiceV2:
             raise Exception(f"Failed to fetch carriers from ShipStation V2: {str(e)}")
 
     async def get_services(self, carrier_id: str) -> List[Dict[str, Any]]:
-        url = f"{self.base_url}/carriers/{carrier_id}/services"
+        safe_carrier_id = urllib.parse.quote(str(carrier_id), safe='')
+        url = f"{self.base_url}/carriers/{safe_carrier_id}/services"
         headers = self._get_auth_header()
         try:
             async with httpx.AsyncClient() as client:
