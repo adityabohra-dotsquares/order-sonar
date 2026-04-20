@@ -1,0 +1,209 @@
+HTML<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #000;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .paid-box {
+            background-color: #e6f2ff;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .paid-box-left {
+            flex: 1;
+        }
+        .paid-box-right {
+            flex: 1;
+            text-align: right;
+        }
+        .address-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .address {
+            flex: 1;
+        }
+        .sold-by {
+            flex: 1;
+            text-align: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">amazon.com.au</div>
+    </div>
+    <div class="title">TAX INVOICE</div>
+    
+    <div class="paid-box">
+        <div class="paid-box-left">
+            <strong>Paid</strong><br>
+            Sold by Amazon Commercial Services Pty Ltd<br>
+            ABN: 30616935623
+        </div>
+        <div class="paid-box-right">
+            Document date<br>
+            08 January 2026<br>
+            Document #<br>
+            AU61PI7UACSI<br>
+            Total payable<br>
+            AUD66.28
+        </div>
+    </div>
+    
+    <p>For questions about your order, visit <a href="www.amazon.com.au/contact-us">www.amazon.com.au/contact-us</a></p>
+    
+    <div class="address-section">
+        <div class="address">
+            <strong>Billing address</strong><br>
+            ronak panchal<br>
+            26 Hey Street, WILLIAMS LANDING<br>
+            WILLIAMS LANDING, VIC, 3027<br>
+            AU
+        </div>
+        <div class="address">
+            <strong>Delivery address</strong><br>
+            ronak panchal<br>
+            26 Hey Street, WILLIAMS LANDING<br>
+            WILLIAMS LANDING, VIC, 3027<br>
+            AU
+        </div>
+        <div class="sold-by">
+            <strong>Sold by</strong><br>
+            Amazon Commercial Services Pty Ltd<br>
+            trading as Amazon AU<br>
+            Level 37, 2 Park Street<br>
+            Sydney, New South Wales 2000<br>
+            Australia<br>
+            ABN: 30616935623
+        </div>
+    </div>
+    
+    <strong>Order information</strong><br>
+    Order Date<br>
+    08 January 2026<br>
+    Order no.<br>
+    503-1909382-6983037<br>
+    Order placed by<br>
+    ronak panchal
+    
+    <h4>Document details</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price (excl. GST)</th>
+                <th>GST rate</th>
+                <th>Unit Price (incl. GST)</th>
+                <th>Item subtotal (incl. GST)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Huggies Ultra Dry Nappies Girls Size 3 (6-11kg) 180 Count - One Month Supply (Packaging May Vary)</td>
+                <td>1</td>
+                <td>AUD66.95</td>
+                <td>10%</td>
+                <td>AUD73.65</td>
+                <td>AUD73.65</td>
+            </tr>
+            <tr>
+                <td>Shipping Charges</td>
+                <td></td>
+                <td>AUD0.00</td>
+                <td></td>
+                <td>AUD0.00</td>
+                <td>AUD0.00</td>
+            </tr>
+            <tr>
+                <td>Promotions</td>
+                <td></td>
+                <td>-AUD6.70</td>
+                <td></td>
+                <td>-AUD7.37</td>
+                <td>-AUD7.37</td>
+            </tr>
+            <tr class="total">
+                <td colspan="5">Document total</td>
+                <td>AUD66.28</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>GST rate</th>
+                <th>Item subtotal (excl. GST)</th>
+                <th>GST subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td>10%</td>
+                <td>AUD60.25</td>
+                <td>AUD6.03</td>
+            </tr>
+            <tr class="total">
+                <td></td>
+                <td><strong>TOTAL</strong></td>
+                <td>AUD60.25</td>
+                <td>AUD6.03</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        Page 1 of 1
+    </div>
+</body>
+</html>
